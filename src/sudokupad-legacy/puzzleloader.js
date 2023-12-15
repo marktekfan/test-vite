@@ -1,5 +1,8 @@
+import { loadFPuzzle } from "./fpuzzlesdecoder.js";
+import { md5Digest } from "./utilities.js";
+import { PuzzleZipper } from "./puzzlezipper.js";
 
-const PuzzleLoader = (() => {
+export const PuzzleLoader = (() => {
 	// Cache
 		const cache = {};
 		const updateCache = (puzzleId, data) => (cache[puzzleId] = data, data);

@@ -1,5 +1,5 @@
-import { FakeDoc } from "./fakedoc.js";
-import { PenpaGeneral } from "./penpa-general.js";
+import { FakeDoc } from "./fakedoc";
+import { PenpaGeneral } from "./penpa-general";
 
 const rePenpaUrl = /\/penpa-edit\//i;
 const rePuzzlinkUrl = /\/puzz\.link\/p\?|pzprxs\.vercel\.app\/p\?|\/pzv\.jp\/p(\.html)?\?/;

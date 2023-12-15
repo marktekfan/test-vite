@@ -1,10 +1,10 @@
-import { PenpaTools } from "./penpa-tools.ts";
+import { PenpaTools } from "./penpa-tools";
 import { PenpaSymbol } from "./penpa-symbol";
 import { Color, set_surface_style, set_line_style } from './penpa-style'
-import { md5Digest } from './sudokupad-legacy'
+import { md5Digest } from './sudokupad-legacy/utilities.js'
 import { DrawingContext } from "./penpa-drawingcontext";
 import { PenpaRegions } from "./penpa-regions";
-import { PenpaLoader } from "./penpa-loader/penpa-loader.ts";
+import { PenpaLoader } from "./penpa-loader/penpa-loader";
 import tinycolor from 'tinycolor2'
 
 let _rnd = 0; // static random seed

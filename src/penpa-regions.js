@@ -1,4 +1,4 @@
-import { PenpaTools } from "./penpa-tools.ts";
+import { PenpaTools } from "./penpa-tools";
 
 export const PenpaRegions = (() => {
     function _constructor() { }

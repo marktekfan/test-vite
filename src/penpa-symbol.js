@@ -1,5 +1,5 @@
-import { Color, set_line_style, set_font_style, set_circle_style } from './penpa-style.ts'
-import { PenpaTools } from './penpa-tools.ts';
+import { Color, set_line_style, set_font_style, set_circle_style } from './penpa-style'
+import { PenpaTools } from './penpa-tools';
 
 export const PenpaSymbol = (() => {
     function _constructor(pu, puzzle, size, decoder) {

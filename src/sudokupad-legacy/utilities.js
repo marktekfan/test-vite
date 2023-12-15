@@ -5,8 +5,8 @@
 		console.error('%s\n%s', (note || 'Error:'), err);
 		throw err;
 	};
-	const sleep = ms => res => new Promise(resolve => setTimeout(() => resolve(res), ms));
-	const bindHandlers = (obj, proto) => {
+	export const sleep = ms => res => new Promise(resolve => setTimeout(() => resolve(res), ms));
+	export const bindHandlers = (obj, proto) => {
 		if(proto === undefined) proto = Object.getPrototypeOf(obj);
 		if(proto === null) return obj;
 		bindHandlers(obj, Object.getPrototypeOf(proto));
@@ -15,28 +15,28 @@
 			.forEach(prop => obj[prop] = obj[prop].bind(obj));
 		return obj;
 	};
-	const resolveSelector = sel => {
+	export const resolveSelector = sel => {
 		if(typeof sel === 'string') sel = [...document.querySelectorAll(sel)];
 		if(!Array.isArray(sel)) sel = [sel];
 		return sel;
 	};
-	const remHandler = (sel, events, fn, opts) => {
+	export const remHandler = (sel, events, fn, opts) => {
 		events = events.split(/[ ,]/);
 		resolveSelector(sel).forEach(elem => events.forEach(event =>
 			elem && elem.removeEventListener(event, fn, opts)));
 	};
-	const addHandler = (sel, events, fn, opts) => {
+	export const addHandler = (sel, events, fn, opts) => {
 		events = events.split(/[ ,]/);
 		resolveSelector(sel).forEach(elem => events.forEach(event =>
 			elem.addEventListener(event, fn, opts)));
 	};
-	const removeDownEventHandler = (sel, fn, opts) => remHandler(sel, 'mousedown touchstart', fn, opts);
-	const addDownEventHandler = (sel, fn, opts) => addHandler(sel, 'mousedown touchstart', fn, opts);
-	const removeMoveEventHandler = (sel, fn, opts) => remHandler(sel, 'mousemove touchmove', fn, opts);
-	const addMoveEventHandler = (sel, fn, opts) => addHandler(sel, 'mousemove touchmove', fn, opts);
-	const removeUpEventHandler = (sel, fn, opts) => remHandler(sel, 'mouseup touchend', fn, opts);
-	const addUpEventHandler = (sel, fn, opts) => addHandler(sel, 'mouseup touchend', fn, opts);
-	const testLocalStorageQuota = (size) => {
+	export const removeDownEventHandler = (sel, fn, opts) => remHandler(sel, 'mousedown touchstart', fn, opts);
+	export const addDownEventHandler = (sel, fn, opts) => addHandler(sel, 'mousedown touchstart', fn, opts);
+	export const removeMoveEventHandler = (sel, fn, opts) => remHandler(sel, 'mousemove touchmove', fn, opts);
+	export const addMoveEventHandler = (sel, fn, opts) => addHandler(sel, 'mousemove touchmove', fn, opts);
+	export const removeUpEventHandler = (sel, fn, opts) => remHandler(sel, 'mouseup touchend', fn, opts);
+	export const addUpEventHandler = (sel, fn, opts) => addHandler(sel, 'mouseup touchend', fn, opts);
+	export const testLocalStorageQuota = (size) => {
 		const STRING100 = [...new Array(100)].map(_=>' ').join('');
 		const roughSize = Math.floor(size / STRING100.length);
 		const QUOTA_DATA = [...new Array(roughSize)].map(_=>STRING100).join('') + [...new Array(size - roughSize * STRING100.length)].map(_=>' ').join('');
@@ -198,7 +198,7 @@
 		link.remove();
 		window.URL.revokeObjectURL(blob);
 	};
-	const loadFromFile = (handleFile, opts) => {
+	export const loadFromFile = (handleFile, opts) => {
 		let btn = Object.assign(document.createElement('input'), {type: 'file', visibility: 'hidden'}, opts);
 		let handleChange = event => {
 			btn.removeEventListener('change', handleChange);
@@ -402,7 +402,7 @@ let SudokuPadUtilities = (() => {
 	};
 
 // Checksum
-	const md5Digest = ((data) => {
+	export const md5Digest = ((data) => {
 		function md5cycle(x, k) {
 			var a = x[0], b = x[1], c = x[2], d = x[3];
 

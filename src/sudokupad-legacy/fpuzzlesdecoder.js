@@ -1,7 +1,11 @@
 /*
 Unsupported:
 */
-const loadFPuzzle = (() => {
+
+import { PuzzleZipper } from "./puzzlezipper.js";
+import { md5Digest } from "./utilities.js";
+
+export const loadFPuzzle = (() => {
 	const fpuzzlesTinyIdLength = 20;
 	const getRegionShape = (size = 9) => {
 		let height = Math.sqrt(size);

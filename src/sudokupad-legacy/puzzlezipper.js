@@ -1,4 +1,4 @@
-const PuzzleZipper = (() => {
+export const PuzzleZipper = (() => {
 	const propMap = {
 		color: 'c',
 		cages: 'ca',

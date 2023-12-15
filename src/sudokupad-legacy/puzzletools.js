@@ -1,4 +1,7 @@
-const PuzzleTools = (() => {
+import { PuzzleZipper } from "./puzzlezipper.js";
+import { loadFPuzzle } from "./fpuzzlesdecoder.js";
+
+export const PuzzleTools = (() => {
 	const encode70Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz()[]-.~:@!$&\'*,;=_';
 	const reEncode70Chars = new RegExp(`^[123456789${encode70Chars.replace(/./g, '\\$&')}]+$`);
 	const encode70CharsMax = encode70Chars.length - 1;

@@ -1,5 +1,5 @@
-import { Color } from "./penpa-style.ts";
-import { PenpaTools } from "./penpa-tools.ts";
+import { Color } from "./penpa-style";
+import { PenpaTools } from "./penpa-tools";
 
 export const DrawingContext = (() => {
     "use strict";
