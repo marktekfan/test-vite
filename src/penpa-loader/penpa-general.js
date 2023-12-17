@@ -1,4 +1,4 @@
-import { Puzzlink } from './penpa-legacy';
+import { Puzzlink } from './puzzlink';
 import { Zlib } from './penpa-legacy';
 import { Stack, PenpaPuzzle, Puzzle_square, Puzzle_sudoku, Puzzle_kakuro } from './penpa-puzzle';
 import { Swal } from '../Swal';

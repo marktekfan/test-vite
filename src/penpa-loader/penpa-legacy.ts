@@ -1,9 +1,9 @@
 
-import zlibRaw from './zlib.js?raw'
+import zlibRaw from './zlib.min.js?raw'
 export const Zlib = Function(`${zlibRaw}; return Zlib;`)()
 
-import puzzlinkRaw from './puzzlink.js?raw'
-export const Puzzlink = Function(`${puzzlinkRaw}; return Puzzlink;`)()
+// import puzzlinkRaw from './puzzlink.js?raw'
+// export const Puzzlink = Function(`${puzzlinkRaw}; return Puzzlink;`)()
     
 // import penpaStyleRaw from './penpa-legacy/penpa-style.js?raw'
 // const penpaStyle = Function(`${penpaStyleRaw}; return {Color, set_surface_style, set_line_style, set_font_style, set_circle_style};`)()

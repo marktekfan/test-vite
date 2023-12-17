@@ -894,3 +894,5 @@
     $ = 0;
     for (fa = Y.length; $ < fa; ++$) Z = Y[$], r("Zlib.RawInflate.BufferType." + Z, X[Z]);
 }).call(this);
+
+export default Zlib

@@ -1,4 +1,4 @@
-class Puzzlink {
+export class Puzzlink {
     constructor(cols, rows, bstr) {
         this.cols = cols;
         this.rows = rows;
