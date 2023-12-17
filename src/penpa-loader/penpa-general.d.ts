@@ -1,6 +1,8 @@
-export function PenpaGeneral(fakedoc: any): {
-    decode_puzzlink: (...args: any[]) => Puzzle_square;
-    load: (...args: any[]) => Puzzle_square;
-    create: (...args: any[]) => Puzzle_square;
+import type { PenpaPuzzle } from './penpa-puzzle';
+import type { FakeDoc } from './fakedoc';
+
+export function PenpaGeneral(fakedoc: FakeDoc): {
+    decode_puzzlink: (...args: any[]) => PenpaPuzzle;
+    load: (...args: any[]) => PenpaPuzzle;
+    create: (...args: any[]) => PenpaPuzzle;
 };
-import { Puzzle_square } from './penpa-puzzle';

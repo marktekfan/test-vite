@@ -1,8 +1,8 @@
 import { PenpaConverter } from "./penpa-converter";
 import { PenpaLoader } from "./penpa-loader/penpa-loader";
-import { PuzzleZipper } from "./sudokupad-legacy/puzzlezipper.js";
-import { loadFPuzzle } from "./sudokupad-legacy/fpuzzlesdecoder.js";
-import { PuzzleLoader } from './sudokupad-legacy/puzzleloader.js';
+import { PuzzleZipper } from "./sudokupad/puzzlezipper.js";
+import { loadFPuzzle } from "./sudokupad/fpuzzlesdecoder.js";
+import { PuzzleLoader } from './sudokupad/puzzleloader.js';
 
 export const puzzleLinkConverter = (() => {
 	"use strict";

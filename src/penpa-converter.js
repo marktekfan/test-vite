@@ -1,7 +1,7 @@
 import { PenpaTools } from "./penpa-tools";
 import { PenpaSymbol } from "./penpa-symbol";
 import { Color, set_surface_style, set_line_style } from './penpa-style'
-import { md5Digest } from './sudokupad-legacy/utilities.js'
+import { md5Digest } from './sudokupad/utilities.js'
 import { DrawingContext } from "./penpa-drawingcontext";
 import { PenpaRegions } from "./penpa-regions";
 import { PenpaLoader } from "./penpa-loader/penpa-loader";
@@ -1655,17 +1655,17 @@ export class PenpaConverter {
 		// useClipPath: {defaultValue: false, title: 'Use clip-path for shapes'},
 		debug:       {defaultValue: 0 || document.location.host.startsWith('127.0.0.1'), title: 'Add penpa debug info to puzzle'}
 	};
-	static flags = {}; // Will be initalized with C.settings values
+	static flags = {}; // Will be initalized with PenpaConverter.settings values
 
 	static ParseUrlSettings() {
 		[...new URLSearchParams(document.location.search)].forEach(([key, val]) => {
 			let settingName = key.replace(/^setting-/, '');
 			// Make case insentitive
-			settingName = Object.keys(C.flags).reduce((prev, cur)=> prev.toLowerCase() === cur.toLowerCase() ? cur : prev, settingName);
+			settingName = Object.keys(PenpaConverter.flags).reduce((prev, cur)=> prev.toLowerCase() === cur.toLowerCase() ? cur : prev, settingName);
 			const settingValueTrue = ['true', 't', '1', ''].includes(val.toLowerCase());
 			const settingValueFalse = ['false', 'f', '0'].includes(val.toLowerCase());
 			const settingValue = settingValueTrue ? true : (settingValueFalse ? false : val);
-			if (C.flags[settingName] === undefined) {
+			if (PenpaConverter.flags[settingName] === undefined) {
 				console.info(`Extra URL option: ${settingName}=${settingValue}`);
 			}
 			else {

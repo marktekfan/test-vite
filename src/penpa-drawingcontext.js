@@ -1,15 +1,17 @@
 import { Color } from "./penpa-style";
 import { PenpaTools } from "./penpa-tools";
 
-export const DrawingContext = (() => {
-    "use strict";
-    function _constructor() {
+export class Ctx {
+    constructor() {
         this._stack = [];
         this.reset();
     }
-    const C = _constructor, P = Object.assign(C.prototype, {constructor: C});
 
-    P.reset = function() {
+    // Injectable constants
+    static ctcSize = 64;
+    static penpaSize = 38;
+
+    reset() {
         this.lineDash = [];
         this.lineDashOffset = 0;
         this.lineWidth = 0;
@@ -19,8 +21,8 @@ export const DrawingContext = (() => {
         this.lineCap = "round";
         this.textAlign = "center";
         this.textBaseline = "middle";
-        this.ctcSize = Number(C.ctcSize);
-        this.penpaSize = Math.min(Math.max(Number(C.penpaSize), 28), 42);
+        this.ctcSize = Number(Ctx.ctcSize);
+        this.penpaSize = Math.min(Math.max(Number(Ctx.penpaSize), 28), 42);
         this.path = []
         this._strokeStarted = false;
         this._strokeCommand = '';
@@ -32,48 +34,44 @@ export const DrawingContext = (() => {
         this.role = null;
     }
 
-    // Injectable constants
-    C.ctcSize = 64;
-    C.penpaSize = 38;
-
     //helper function to map canvas-textAlign to svg-textAnchor
-    function getTextAnchor(textAlign) {
+    _getTextAnchor(textAlign) {
         const mapping = { "left": "start", "right": "end", "center": "middle", "start": "start", "end": "end" };
         return mapping[textAlign] || mapping.start;
     }
     //helper function to map canvas-textBaseline to svg-dominantBaseline
-    function getDominantBaseline(textBaseline) {
+    _getDominantBaseline(textBaseline) {
         const mapping = { "alphabetic": "alphabetic", "hanging": "hanging", "top": "text-before-edge", "bottom": "text-after-edge", "middle": "middle" };
         return mapping[textBaseline] || mapping.alphabetic;
     }
-    P.push = function() {
+    push() {
         let state = Object.assign({}, this);
         delete state._stack;
         delete state.path;
         this._stack.push(state);
     }
-    P.pop = function() {
+    pop() {
         if (this._stack.length > 0) {
             let state = this._stack.pop();
             Object.assign(this, state);
         }
     }
-    P.setLineDash = function(dash) {
+    setLineDash(dash) {
         this.lineDash = dash;
     }
 
-    P.beginPath = function() {
+    beginPath() {
         this._strokeStarted = false;
         this._strokeCommand = '';
     }
-    P.moveTo = function(x, y) {
+    moveTo(x, y) {
         this._strokeStarted = true;
         this.path.push(['M', x, y]);
         this.x = x;
         this.y = y;
         this._strokeCommand = 'M';
     }
-    P.lineTo = function(x, y) {
+    lineTo(x, y) {
         let dx = x - this.x;
         let dy = y - this.y;
         if (dx === 0 && dy === 0 && this._strokeCommand != 'M') {
@@ -84,7 +82,7 @@ export const DrawingContext = (() => {
         this.y = y;
         this._strokeCommand = 'L';
     }
-    P.arc = function(x, y, radius, startAngle, endAngle, ccw = false) {
+    arc(x, y, radius, startAngle, endAngle, ccw = false) {
         function polarToCartesian(centerX, centerY, radius, angle) {
             return {
                 x: centerX + (radius * Math.cos(angle)),
@@ -118,7 +116,7 @@ export const DrawingContext = (() => {
         this.y = end.y;
         this._strokeCommand = 'A';
     }
-    P.arcTo = function(x1, y1, x2, y2, radius) {
+    arcTo(x1, y1, x2, y2, radius) {
         let start = {x: x1, y: y1};
         let end = {x: x2, y: y2};
 
@@ -132,23 +130,23 @@ export const DrawingContext = (() => {
         this.y = end.y;
         this._strokeCommand = 'A';
     }
-    P.quadraticCurveTo = function(cpx, cpy, x, y) {
+    quadraticCurveTo(cpx, cpy, x, y) {
         //this.path.push(['Q', cpx, cpy, x, y]);
         this.path.push(['q', cpx - this.x, cpy - this.y, x - this.x, y - this.y]);
         this.x = x;
         this.y = y;
         this._strokeCommand = 'A';
     }
-    P.closePath = function() {
+    closePath() {
         this.path.push(['z']);
         this._strokeCommand = '';
     }
-    P.stroke = function() {
+    stroke() {
     }
-    P.fill = function() {
+    fill() {
         this.isFill = true;
     }
-    P.text = function(text, x, y) {
+    text(text, x, y) {
         if (!text || text.length === 0) return;
         const fontsize = Number(this.font.split('px')[0]);
         this._text = text;
@@ -156,7 +154,7 @@ export const DrawingContext = (() => {
         this.y = y + 0.28 * fontsize;
     }
 
-    P.arrow = function(startX, startY, endX, endY, controlPoints) {
+    arrow(startX, startY, endX, endY, controlPoints) {
         let cp = [...controlPoints];
         while (cp[0] === 0 && cp[1] === 0) cp.splice(0, 2);
         while (cp.length >= 4 && cp[0] === cp[2] && cp[1] === cp[3]) cp.splice(0, 2);
@@ -172,7 +170,7 @@ export const DrawingContext = (() => {
         }
         return this._arrowN(startX, startY, endX, endY, controlPoints);
     }
-    P._arrowN = function(startX, startY, endX, endY, controlPoints) {
+    _arrowN(startX, startY, endX, endY, controlPoints) {
         let dx = endX - startX;
         let dy = endY - startY;
         let len = Math.sqrt(dx * dx + dy * dy);
@@ -201,7 +199,7 @@ export const DrawingContext = (() => {
         }
         this.closePath();
     }
-    P._arrowLine = function(startX, startY, endX, endY, controlPoints) {
+    _arrowLine(startX, startY, endX, endY, controlPoints) {
         // Highly tweaked lineWidth calculation, don't touch!
         this.lineWidth = (controlPoints[1] * 2.2 * this.penpaSize) - 0.2;
         this.lineJoin = 'miter'
@@ -240,8 +238,11 @@ export const DrawingContext = (() => {
             else this.lineTo(x, y);
         }
     }
+}
 
-    P.getPathString = function() {
+export class DrawingContext extends Ctx {
+
+    getPathString() {
         const mapPathToPuzzle = function(p, size) {
             const {round1, round3} = PenpaTools;
             const scale1 = (d) => round1(d * size);
@@ -271,7 +272,7 @@ export const DrawingContext = (() => {
         return this.path.map(d => mapPathToPuzzle(d, this.ctcSize)).join('');
     }
 
-    P.convertPathToWaypoints = function(path = this.path) {
+    convertPathToWaypoints = function(path = this.path) {
         const {round2} = PenpaTools;
         const round = (d) => round2(d);
         
@@ -351,7 +352,7 @@ export const DrawingContext = (() => {
         return started ? wp : null;
     }
 
-    P.getIntent = function() {
+    getIntent = function() {
         if (this.path.length > 0)
             return 'line';
         else if (this._text)
@@ -362,7 +363,7 @@ export const DrawingContext = (() => {
         return undefined;
     }
 
-    P.toOpts = function(intent) {
+    toOpts = function(intent) {
         const {round1, round2} = PenpaTools;
         let opts = {};
         intent = intent || this.getIntent()
@@ -468,6 +469,4 @@ export const DrawingContext = (() => {
 
         return opts;
     }
-
-    return C;
-})();
+}

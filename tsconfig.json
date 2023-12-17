@@ -8,6 +8,7 @@
     "types": ["vite/client"],
     "allowJs": true,
     "checkJs": false,
+    //"verbatimModuleSyntax": false,
 
     "typeRoots": [
       "src/types",

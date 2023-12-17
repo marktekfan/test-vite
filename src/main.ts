@@ -1,24 +1,20 @@
-
-// import {testfunc} from './legacy-test.js'
-// import tinycolor from 'tinycolor2'
-// var color = tinycolor('red');
-// console.log(testfunc(), color);
-
 import { PenpaConverter } from './penpa-converter'
-import { PenpaLoader } from './penpa-loader/penpa-loader'
+//import { PenpaLoader } from './penpa-loader/penpa-loader'
 import stringify from 'json-stringify-pretty-compact'
-import { loadFPuzzle } from './sudokupad-legacy/fpuzzlesdecoder.js'
-import { PuzzleLoader } from './sudokupad-legacy/puzzleloader.js';
+import { loadFPuzzle } from './sudokupad/fpuzzlesdecoder.js'
+import { PuzzleLoader } from './sudokupad/puzzleloader.js';
 import { Swal } from './Swal';
-import { addHandler, addDownEventHandler, removeDownEventHandler, loadFromFile } from './sudokupad-legacy/utilities.js';
+import { addHandler, addDownEventHandler, removeDownEventHandler, loadFromFile } from './sudokupad/utilities.js';
 import { puzzleLinkConverter } from './puzzle-link-converter.js';
+import { Testing } from './testing.js';
+import { AppVersion } from './appversion.js';
 
-const appVersion = '0.99.0';
+setAppVersion();
 
-let url = 'https://swaroopg92.github.io/penpa-edit/#m=edit&p=7VRdb9owFH3nV0x+9gP5bPBb15W9sG4dTFVlIRQgLVED7pxknYL47z2+ThVCMqnaNK0Pk+XLybk3vsfEx/n3MtYJDzG8iA+5g+GGIU3H92kO6zFLiywR7/h5WWyUBuD883jM7+IsTwayrpoP9tVIVNe8+igkcxhnLqbD5ry6Fvvqk6gmvJoixXgIbmKLIsBLC13AG8obdGFJZwh8VWPAW8BVqldZsphY5ouQ1Ywz0+c9vW0g26ofCat1mOeV2i5TQyzjApvJN+ljncnLtXoo61pnfuDVuZU7fZFrutRyvUaugVauQT1yzS7+stzR/HDA3/4VghdCGu3fGhg1cCr2zPOYcDnzfCYC/ARMhMhcIeMjI9kI+uz3Yj5qJIsaIkC1ZGcvBN5zxB7xluKYoktxhoa88ih+oDikGFCcoFvg8gANI6zq8dCiEAg9IyxwScvcULyg6FMMaYEzs59X7tju7k+0vlKOdF2yjx3B7+P5QMJFLFfZIi/1XbzCmSCT4bOD25XbZaJbVKbUY5bu2nXp/U7ppDdlyGR931e/VHp9svpTnGUtwl4aLcqe7hZVaBzdo+dYa/XUYrZxsWkRR8e8tVKyK9oCirgtMX6IT7ptmz0fBuwnoyk9c8X9v6P+1R1lvsHwrfn2rcmh46t0r/dB99gfbK/Na77jdPAdT5uGXVuD7XE22FNzg+r6G2TH4uB+4XKz6qnRjapTr5tWHbubVseOxw1K6Bk='
-let pu  = PenpaLoader.loadPenpaPuzzle(url);
-let sp = PenpaConverter.convertPenpaPuzzle(pu);
-console.log(sp);
+// let url = 'https://swaroopg92.github.io/penpa-edit/#m=edit&p=7VRdb9owFH3nV0x+9gP5bPBb15W9sG4dTFVlIRQgLVED7pxknYL47z2+ThVCMqnaNK0Pk+XLybk3vsfEx/n3MtYJDzG8iA+5g+GGIU3H92kO6zFLiywR7/h5WWyUBuD883jM7+IsTwayrpoP9tVIVNe8+igkcxhnLqbD5ry6Fvvqk6gmvJoixXgIbmKLIsBLC13AG8obdGFJZwh8VWPAW8BVqldZsphY5ouQ1Ywz0+c9vW0g26ofCat1mOeV2i5TQyzjApvJN+ljncnLtXoo61pnfuDVuZU7fZFrutRyvUaugVauQT1yzS7+stzR/HDA3/4VghdCGu3fGhg1cCr2zPOYcDnzfCYC/ARMhMhcIeMjI9kI+uz3Yj5qJIsaIkC1ZGcvBN5zxB7xluKYoktxhoa88ih+oDikGFCcoFvg8gANI6zq8dCiEAg9IyxwScvcULyg6FMMaYEzs59X7tju7k+0vlKOdF2yjx3B7+P5QMJFLFfZIi/1XbzCmSCT4bOD25XbZaJbVKbUY5bu2nXp/U7ppDdlyGR931e/VHp9svpTnGUtwl4aLcqe7hZVaBzdo+dYa/XUYrZxsWkRR8e8tVKyK9oCirgtMX6IT7ptmz0fBuwnoyk9c8X9v6P+1R1lvsHwrfn2rcmh46t0r/dB99gfbK/Na77jdPAdT5uGXVuD7XE22FNzg+r6G2TH4uB+4XKz6qnRjapTr5tWHbubVseOxw1K6Bk='
+// let pu  = PenpaLoader.loadPenpaPuzzle(url);
+// let sp = PenpaConverter.convertPenpaPuzzle(pu);
+// console.log(sp);
 
 export function setError(errormessage: string) {
   console.log('ERROR: ', errormessage);
@@ -29,6 +25,7 @@ export function setError(errormessage: string) {
   void element.offsetWidth; // trigger a DOM reflow to retrigger animation
   element.classList.add('error');
 }
+
 function clearError() {
   document.querySelector<HTMLElement>('#errortext')!.innerHTML = '';
   document.querySelector<HTMLDivElement>('#errorcontainer')!.classList.remove('error');
@@ -64,7 +61,7 @@ function doInitialize() {
   convertButtonElem.onclick = () => OnOpenInSudokupad();
   buttonCopyUrlElem.onclick = OnCopyUrl;
   
-  let appString = `Sudokupad Penpa+ importer v${appVersion}  (&copy; 2023-${new Date().getFullYear()})`;
+  let appString = `${AppVersion.getAppTitle()}  (&copy; 2023-${new Date().getFullYear()})`;
   document.querySelectorAll('#menu-app-version').forEach(elem => elem.innerHTML = appString);
 
   const queryString = window.location.search;
@@ -96,6 +93,8 @@ function doInitialize() {
   addFileDragNDrop(fileDropAreaElem);
 
   createAppMenu();
+
+  Testing.init(addDestination);
 
   function createSettings(fieldset: HTMLElement, test: string | null) {
       // Initialize Setting
@@ -177,30 +176,14 @@ function doInitialize() {
               }
           }
       }
-  }
+  } 
 }
-
 
 function toBool(value: any) {
   if (typeof value === 'string' && value.length !== 0) {
       return value[0] === 't';
   }
   return !!value;
-}
-
-function setMenuSetting(setting: string, value: any) {
-  let settingCheckbox = document.querySelector<HTMLInputElement>('#' + setting)!;
-
-  switch(setting) {
-      case 'options-show-options': {
-          let checked = toBool(value);
-          settingCheckbox.checked = checked;
-          localStorage.showOptions = checked;
-          let importerOptions = document.querySelector<HTMLElement>('.importer-options')!;
-          importerOptions.classList.toggle('show', checked);
-      } break;
-  }
-
 }
 
 let lastActionSelection = 'open'; // default action
@@ -390,55 +373,80 @@ function OnOpenInSudokupad(openinNewWindow = true) {
 }
 
 function OnLoadFromFile() {
-  console.log('load from file!');
-  loadFromFile(handleLoadFromFile, {accept: '.json, .txt'});
+    console.log('load from file!');
+    loadFromFile(handleLoadFromFile, {accept: '.json, .txt'});
 }
 
 function OnCopyUrl() {
-  navigator.clipboard.writeText(generatedUrlElem.value);
-  // Retrigger animation
-  urlIsCopiedElem.classList.remove("animation");
-  void urlIsCopiedElem.offsetWidth; // trigger a DOM reflow
-  urlIsCopiedElem.classList.add("animation");
+    navigator.clipboard.writeText(generatedUrlElem.value);
+    // Retrigger animation
+    urlIsCopiedElem.classList.remove("animation");
+    void urlIsCopiedElem.offsetWidth; // trigger a DOM reflow
+    urlIsCopiedElem.classList.add("animation");
 }
 
 async function request_tinypuz_shortlink(url: string) {
-  try {
-      let res = await fetch('https://tinyurl.com/api-create.php?url=' + url);
-      let text = await res.text() || '';
-      return text.replace('tinyurl.com', 'tinypuz.com');
-  } catch (err) {
-      console.error('Error while creating TinyPuz URL', err);
-      return null;
-  }
+    try {
+        let res = await fetch('https://tinyurl.com/api-create.php?url=' + url);
+        let text = await res.text() || '';
+        return text.replace('tinyurl.com', 'tinypuz.com');
+    } catch (err) {
+        console.error('Error while creating TinyPuz URL', err);
+        return null;
+    }
 }
 
+function setAppVersion() {
+    let titleElem = document.querySelector('title')!;
+    titleElem.innerHTML = AppVersion.getAppTitle();
+
+    let appTitleElem = document.querySelector('#appTitle')!;
+    appTitleElem.innerHTML = AppVersion.getAppTitle();
+}
+
+//
+// APP Menu
+//
 function createAppMenu() {
-  const closeMenu = (event: any) => {
-  document.querySelector('#appmenu')!.classList.toggle('open');
-      removeDownEventHandler('#appmenu.mdc-drawer', handleClickOverlay);
-      if(event) event.preventDefault(); // Prevent click-throughs on buttons
-};
+    const closeMenu = (event: any) => {
+        document.querySelector('#appmenu')!.classList.toggle('open');
+        removeDownEventHandler('#appmenu.mdc-drawer', handleClickOverlay);
+        if(event) event.preventDefault(); // Prevent click-throughs on buttons
+    };
 
-const handleClickOverlay = (event: any) => {
-  event.stopPropagation();
-  event.stopImmediatePropagation();
-  if(event.target === document.querySelector('#appmenubtn')) return
-  if(event.target === document.querySelector('#appmenu')) closeMenu(event);
-};
+    const handleOpenAppMenu = (_event: any) => {
+        document.querySelector('#appmenu')!.classList.toggle('open');
+        addDownEventHandler('#appmenu.mdc-drawer', handleClickOverlay);
+    };
+    
+    
+    const handleClickOverlay = (event: any) => {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        if(event.target === document.querySelector('#appmenubtn')) return
+        if(event.target === document.querySelector('#appmenu')) closeMenu(event);
+    };
 
-const handleClickOption = (event: any) => {
-  if (!event.target) return;
-  setMenuSetting('options-show-options', event.target.checked);
-};
+    const handleClickOption = (event: any) => {
+    if (!event.target) return;
+        setMenuSetting('options-show-options', event.target.checked);
+    };
 
-const handleOpenAppMenu = (_event: any) => {
-  document.querySelector('#appmenu')!.classList.toggle('open');
-  addDownEventHandler('#appmenu.mdc-drawer', handleClickOverlay);
-};
+    addHandler('#appmenubtn', 'click', handleOpenAppMenu, {capture: true});
+    addHandler('#options-show-options', 'click', handleClickOption, {capture: true});
+}
 
-addHandler('#appmenubtn', 'click', handleOpenAppMenu, {capture: true});
-  addHandler('#options-show-options', 'click', handleClickOption, {capture: true});
-  //handleOpenAppMenu();
+function setMenuSetting(setting: string, value: any) {
+    let settingCheckbox = document.querySelector<HTMLInputElement>('#' + setting)!;
+
+    switch(setting) {
+        case 'options-show-options': {
+            let checked = toBool(value);
+            settingCheckbox.checked = checked;
+            localStorage.showOptions = checked;
+            let importerOptions = document.querySelector<HTMLElement>('.importer-options')!;
+            importerOptions.classList.toggle('show', checked);
+        } break;
+    }
 }
 

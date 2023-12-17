@@ -2,6 +2,7 @@ import { Puzzlink } from './penpa-legacy';
 import { Zlib } from './penpa-legacy';
 import { Stack, PenpaPuzzle, Puzzle_square, Puzzle_sudoku, Puzzle_kakuro } from './penpa-puzzle';
 import { Swal } from '../Swal';
+import { Color } from '../penpa-style';
 
 export const PenpaGeneral = function(fakedoc) {
 
