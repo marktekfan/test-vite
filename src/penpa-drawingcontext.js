@@ -35,12 +35,12 @@ export class Ctx {
     }
 
     //helper function to map canvas-textAlign to svg-textAnchor
-    _getTextAnchor(textAlign) {
+    static _getTextAnchor(textAlign) {
         const mapping = { "left": "start", "right": "end", "center": "middle", "start": "start", "end": "end" };
         return mapping[textAlign] || mapping.start;
     }
     //helper function to map canvas-textBaseline to svg-dominantBaseline
-    _getDominantBaseline(textBaseline) {
+    static _getDominantBaseline(textBaseline) {
         const mapping = { "alphabetic": "alphabetic", "hanging": "hanging", "top": "text-before-edge", "bottom": "text-after-edge", "middle": "middle" };
         return mapping[textBaseline] || mapping.alphabetic;
     }
@@ -420,10 +420,10 @@ export class DrawingContext extends Ctx {
                     //Don't need set font-family
                     // opts["font-family"] = font.family
                     if (this.textBaseline && this.textBaseline !== 'middle') {
-                        opts["dominant-baseline"] = getDominantBaseline(this.textBaseline);
+                        opts["dominant-baseline"] = Ctx._getDominantBaseline(this.textBaseline);
                     }
                     if (this.textAlign && this.textAlign !== 'center') {
-                        opts['text-anchor'] = getTextAnchor(this.textAlign)
+                        opts['text-anchor'] = Ctx._getTextAnchor(this.textAlign)
                     }
 
                     // FIXME: Remove when Sudokupad has optional width and height
