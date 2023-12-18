@@ -1,5 +1,5 @@
 import { Puzzlink } from './puzzlink';
-import { Zlib } from './penpa-legacy';
+import { Zlib } from './zlib-raw';
 import { Stack, PenpaPuzzle, Puzzle_square, Puzzle_sudoku, Puzzle_kakuro } from './penpa-puzzle';
 import { Swal } from '../Swal';
 import { Color } from '../penpa-style';
